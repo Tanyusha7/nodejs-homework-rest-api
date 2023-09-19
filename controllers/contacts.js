@@ -1,8 +1,18 @@
 const { Contact } = require("../models/contact");
 const { HttpError, ctrlWrapper } = require("../helpers");
+const { string } = require("joi");
 
 const listContacts = async (req, res) => {
-  const data = await Contact.find({}, "-createdAt -updatedAt");
+  const { _id: owner } = req.user;
+  const { page = 2, limit = 5 } = req.query;
+  const skip = (page - 1) * limit;
+
+  // console.log(skip);
+
+  const data = await Contact.find({ owner }, "-createdAt -updatedAt", {
+    skip,
+    page,
+  }).populate("owner", "name email");
   res.json(data);
 };
 
@@ -17,7 +27,18 @@ const getContactById = async (req, res) => {
 };
 
 const addContact = async (req, res) => {
-  const data = await Contact.create(req.body);
+  const { name, phone } = req.body;
+  const isUser = await Contact.findOne({ phone }, { name });
+  if (isUser) {
+    throw new HttpError(409, ` ${name} is exist already`);
+  }
+
+  const { _id: owner } = req.user;
+  // console.log({owner});
+
+  const data = await Contact.create({ ...req.body, owner });
+  console.log(data);
+
   res.status(201).json(data);
 };
 

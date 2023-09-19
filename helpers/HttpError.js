@@ -1,15 +1,14 @@
+const { httpErrorMess } = require("../constants");
+
 class HttpError extends Error {
-  constructor(status, message) {
+  constructor(
+    status = 500,
+    message = httpErrorMess[status] || httpErrorMess.default
+  ) {
     super(message);
-    (this.status = status), // (1)
-      (this.name = "HttpError"); // (2)
+    this.status = status;
+    this.name = "HttpError";
   }
 }
-
-// const HttpError = (status, message) => {
-//   const error = new Error(message);
-//   error.status = status;
-//   return error;
-// };
 
 module.exports = HttpError;
