@@ -22,6 +22,10 @@ const userSchema = new Schema(
     password: { type: String, match: PASSWORD_REGEXP, required: true },
     subscription: {
       type: String,
+      //    enum: {
+      //   values: ["starter", "pro", "business"],
+      //   message: '{VALUE} is not supported'
+      // }
       enum: ["starter", "pro", "business"],
       default: "starter",
     },
@@ -44,11 +48,18 @@ const schema = Joi.object({
   password: Joi.string()
     .pattern(PASSWORD_REGEXP, { name: "password" })
     .required(),
-  repeat_password: Joi.ref("password"),
+  subscription: Joi.string().valid("starter", "pro", "business"),
 });
+
+const schemaSubcription = Joi.object().keys({
+  name: schema.extract("name").optional(),
+  subscription: schema.extract("subscription").required().optional(),
+});
+// .and("name", "subscription");
 
 const userSchemaJoi = {
   schema,
+  schemaSubcription,
 };
 
 userSchema.post("save", handleMongooseError);
