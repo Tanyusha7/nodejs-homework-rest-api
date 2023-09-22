@@ -22,6 +22,7 @@ router.post("/logout", authenticate, signout);
 
 router.patch(
   "/",
+  authenticate,
   validateBody(userSchemaJoi.schemaSubcription),
   updateSubscription
 );

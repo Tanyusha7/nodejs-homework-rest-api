@@ -52,10 +52,9 @@ const schema = Joi.object({
 });
 
 const schemaSubcription = Joi.object().keys({
-  name: schema.extract("name").optional(),
+  // name: schema.extract("name").optional(),
   subscription: schema.extract("subscription").required().optional(),
 });
-// .and("name", "subscription");
 
 const userSchemaJoi = {
   schema,

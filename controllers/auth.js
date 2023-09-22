@@ -83,16 +83,11 @@ const signout = ctrlWrapper(async (req, res) => {
 });
 
 const updateSubscription = ctrlWrapper(async (req, res) => {
-  const { name } = req.body;
-  const updateUser = await User.findOneAndUpdate({ name }, req.body, {
+  const updateUser = await User.findOneAndUpdate({}, req.body, {
     new: true,
   });
 
-  if (!updateUser) {
-    throw new HttpError(404, "User not exist");
-  }
-
-  res.json({ name: updateUser.name, subscription: updateUser.subscription });
+  res.json(updateUser);
 });
 
 module.exports = {
