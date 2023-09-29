@@ -22,12 +22,12 @@ const userSchema = new Schema(
     password: { type: String, match: PASSWORD_REGEXP, required: true },
     subscription: {
       type: String,
-      //    enum: {
-      //   values: ["starter", "pro", "business"],
-      //   message: '{VALUE} is not supported'
-      // }
       enum: ["starter", "pro", "business"],
       default: "starter",
+    },
+    avatarURL: {
+      type: String,
+      required: true,
     },
     token: {
       type: String,
