@@ -2,6 +2,8 @@ const express = require("express");
 
 const {
   signup,
+  verifyEmail,
+  resendVerifyMail,
   signin,
   signout,
   getCurrentUser,
@@ -14,7 +16,18 @@ const { userSchemaJoi } = require("../../models/user");
 
 const router = express.Router();
 
+//SIGNUP//
 router.post("/register", validateBody(userSchemaJoi.schema), signup);
+
+router.get("/verify/:verificationToken", verifyEmail);
+
+router.post(
+  "/verify",
+  validateBody(userSchemaJoi.schemaVarifyMail),
+  resendVerifyMail
+);
+
+//SIGNIN//
 
 router.post("/login", validateBody(userSchemaJoi.schema), signin);
 

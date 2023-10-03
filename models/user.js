@@ -33,6 +33,14 @@ const userSchema = new Schema(
       type: String,
       default: "",
     },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      required: true,
+    },
   },
   { versionKey: false, timestamps: true }
 );
@@ -42,7 +50,7 @@ const schema = Joi.object({
   email: Joi.string()
     .min(EMAIL_MIN_LENGTH)
     .pattern(EMAIL_REGEXP, { name: "email" })
-    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net", "ua"] } })
     .lowercase()
     .required(),
   password: Joi.string()
@@ -56,9 +64,14 @@ const schemaSubcription = Joi.object().keys({
   subscription: schema.extract("subscription").required().optional(),
 });
 
+const schemaVarifyMail = Joi.object().keys({
+  email: schema.extract("email").optional(),
+});
+
 const userSchemaJoi = {
   schema,
   schemaSubcription,
+  schemaVarifyMail,
 };
 
 userSchema.post("save", handleMongooseError);
