@@ -24,12 +24,11 @@ const sendEmail = async (data) => {
       ...data,
     };
 
-    await transporter.sendMail(email);
-    console.log("Email sent success");
-    return true;
+    const response = await transporter.sendMail(email);
+
+    return response;
   } catch (err) {
     throw new Error(err.response);
-    // return console.log(err);
   }
 };
 
