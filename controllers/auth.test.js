@@ -83,12 +83,10 @@ describe("test user/signin function", () => {
 
 // describe("test user/signin function", () => {
 //   test("user is  exist return 200, User is exist", async () => {
-//     try {
-//       const response = await request().post();
-//       // .send({ email: "tiuyul@mail.com", password: "123456&" });
-//       User.findOne.mockImplementationOnce(() => true);
+//     await supertest(signin).post("/login").expext(200);
+//     // .send({ email: "tiuyul@mail.com", password: "123456&" });
+//     // User.findOne.mockImplementationOnce(() => true);
 
-//       expext(response.status).toBe(true);
-//     } catch (error) {}
+//     // expext(response.status).toBe(true);
 //   });
 // });
